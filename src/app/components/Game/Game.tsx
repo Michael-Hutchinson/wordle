@@ -1,9 +1,9 @@
 'use client';
 
-import { ChangeEvent, FormEvent, useState } from 'react';
-import Guess from '../Guess/Guess';
 import { Feedback, GuessState } from '@/app/types/types';
+import { useState } from 'react';
 import Keyboard from '../Keyboard/Keyboard';
+import Row from '../Row/Row';
 
 interface GameProps {
   correctWord: string;
@@ -60,9 +60,15 @@ const Game = ({ correctWord }: GameProps) => {
 
   return (
     <div className='flex flex-col items-center justify-center p-4'>
-      <div className='mb-4'>
-        {guesses.map((item, index) => (
-          <Guess key={index} guess={item.guess} feedback={item.feedback} />
+      <div className='grid gap-2'>
+        {Array.from({ length: 6 }).map((_, rowIndex) => (
+          <Row
+            key={rowIndex}
+            rowIndex={rowIndex}
+            isCurrentGuess={rowIndex === guesses.length}
+            currentGuess={currentGuess}
+            guesses={guesses}
+          />
         ))}
       </div>
       <Keyboard
