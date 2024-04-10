@@ -3,6 +3,7 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
 import Guess from '../Guess/Guess';
 import { Feedback, GuessState } from '@/app/types/types';
+import Keyboard from '../Keyboard/Keyboard';
 
 interface GameProps {
   correctWord: string;
@@ -25,14 +26,22 @@ const Game = ({ correctWord }: GameProps) => {
     });
   };
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setCurrentGuess(e.target.value);
+  const handleKeyPress = (key: string) => {
+    if (!isGameOver && currentGuess.length < correctWord.length) {
+      setCurrentGuess((prev) => prev + key);
+    }
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleDelete = () => {
+    setCurrentGuess((prev) => prev.slice(0, -1));
+  };
 
-    if (isGameOver || guesses.length >= 6) {
+  const handleSubmit = () => {
+    if (
+      isGameOver ||
+      guesses.length >= 6 ||
+      currentGuess.length !== correctWord.length
+    ) {
       return;
     }
 
@@ -50,32 +59,19 @@ const Game = ({ correctWord }: GameProps) => {
   };
 
   return (
-    <div className='flex flex-col items-center justify-center'>
-      <form onSubmit={handleSubmit}>
-        <input
-          type='text'
-          placeholder='Enter your guess'
-          maxLength={correctWord.length}
-          onChange={handleChange}
-          value={currentGuess}
-          disabled={isGameOver || guesses.length >= 6}
-        />
-        <button
-          type='submit'
-          disabled={
-            isGameOver ||
-            currentGuess.length !== correctWord.length ||
-            guesses.length >= 6
-          }
-        >
-          Guess
-        </button>
-      </form>
-      {guesses.map((item, index) => (
-        <Guess key={index} guess={item.guess} feedback={item.feedback} />
-      ))}
+    <div className='flex flex-col items-center justify-center p-4'>
+      <div className='mb-4'>
+        {guesses.map((item, index) => (
+          <Guess key={index} guess={item.guess} feedback={item.feedback} />
+        ))}
+      </div>
+      <Keyboard
+        onKeyPress={handleKeyPress}
+        onDelete={handleDelete}
+        onSubmit={handleSubmit}
+      />
       {isGameOver && (
-        <div>
+        <div className='text-2xl font-bold my-2'>
           {guesses.length >= 6 && currentGuess !== correctWord
             ? 'Game Over. Try again!'
             : "Congratulations! You've guessed the word."}
