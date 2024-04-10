@@ -3,7 +3,7 @@ export const getRandomWord = () => {
   return words[randomIndex];
 };
 
-const words = [
+export const words = [
   'cigar',
   'rebut',
   'sissy',

@@ -4,6 +4,7 @@ import { Feedback, GuessState } from '@/app/types/types';
 import { useState } from 'react';
 import Keyboard from '../Keyboard/Keyboard';
 import Row from '../Row/Row';
+import { words } from '@/app/constants/words';
 
 interface GameProps {
   correctWord: string;
@@ -42,6 +43,11 @@ const Game = ({ correctWord }: GameProps) => {
       guesses.length >= 6 ||
       currentGuess.length !== correctWord.length
     ) {
+      return;
+    }
+
+    if (!words.includes(currentGuess.toLowerCase())) {
+      alert('Word does not exist in list');
       return;
     }
 
