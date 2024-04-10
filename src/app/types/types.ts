@@ -3,3 +3,8 @@ export enum Feedback {
   Incorrect = 'incorrect',
   Invalid = 'invalid',
 }
+
+export interface GuessState {
+  guess: string;
+  feedback: Feedback[];
+}
