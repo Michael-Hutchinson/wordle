@@ -15,12 +15,20 @@ const Game = () => {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (currentGuess === correctWord) {
-      setIsGameOver(true);
+    if (isGameOver || guesses.length >= 6) {
+      return;
     }
 
-    setGuesses([...guesses, currentGuess]);
+    const updatedGuesses = [...guesses, currentGuess];
+    const gameJustEnded =
+      currentGuess === correctWord || updatedGuesses.length === 6;
+
+    setGuesses(updatedGuesses);
     setCurrentGuess('');
+
+    if (gameJustEnded) {
+      setIsGameOver(true);
+    }
   };
 
   return (
@@ -29,19 +37,32 @@ const Game = () => {
         <input
           type='text'
           placeholder='Enter your guess'
-          maxLength={5}
+          maxLength={correctWord.length}
           onChange={handleChange}
           value={currentGuess}
-          disabled={isGameOver}
+          disabled={isGameOver || guesses.length >= 6}
         />
-        <button type='submit' disabled={isGameOver}>
+        <button
+          type='submit'
+          disabled={
+            isGameOver ||
+            currentGuess.length !== correctWord.length ||
+            guesses.length >= 6
+          }
+        >
           Guess
         </button>
       </form>
       {guesses.map((guess, index) => (
         <p key={index}>{guess}</p>
       ))}
-      {isGameOver && <p>Correct!</p>}
+      {isGameOver && (
+        <div>
+          {guesses.length >= 6 && currentGuess !== correctWord
+            ? 'Game Over. Try again!'
+            : "Congratulations! You've guessed the word."}
+        </div>
+      )}
     </div>
   );
 };
