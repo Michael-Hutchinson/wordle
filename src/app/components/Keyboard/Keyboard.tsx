@@ -1,5 +1,7 @@
 'use client';
 
+import { useEffect, useMemo } from 'react';
+
 interface KeyboardProps {
   onKeyPress: (key: string) => void;
   onSubmit: () => void;
@@ -7,7 +9,27 @@ interface KeyboardProps {
 }
 
 const Keyboard = ({ onKeyPress, onSubmit, onDelete }: KeyboardProps) => {
-  const rows = ['QWERTYUIOP', 'ASDFGHJKL', 'ZXCVBNM'];
+  const rows = useMemo(() => ['QWERTYUIOP', 'ASDFGHJKL', 'ZXCVBNM'], []);
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      const key = event.key.toUpperCase();
+
+      if (rows.join('').includes(key)) {
+        onKeyPress(key);
+      } else if (key === 'ENTER') {
+        onSubmit();
+      } else if (key === 'BACKSPACE') {
+        onDelete();
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [onKeyPress, onSubmit, onDelete, rows]);
 
   return (
     <div>
