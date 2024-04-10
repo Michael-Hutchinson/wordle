@@ -1,14 +1,11 @@
 'use client';
 
 import { ChangeEvent, FormEvent, useState } from 'react';
+import Guess from '../Guess/Guess';
+import { Feedback, GuessState } from '@/app/types/types';
 
 interface GameProps {
   correctWord: string;
-}
-
-interface GuessState {
-  guess: string;
-  feedback: ('correct' | 'incorrect' | 'invalid')[];
 }
 
 const Game = ({ correctWord }: GameProps) => {
@@ -16,17 +13,16 @@ const Game = ({ correctWord }: GameProps) => {
   const [guesses, setGuesses] = useState<GuessState[]>([]);
   const [isGameOver, setIsGameOver] = useState(false);
 
-  const getGuessFeedback = (guess: string) => {
-    const feedback = guess.split('').map((letter, index) => {
+  const getGuessFeedback = (guess: string): Feedback[] => {
+    return guess.split('').map((letter, index) => {
       if (correctWord[index] === letter) {
-        return 'correct';
+        return Feedback.Correct;
       } else if (correctWord.includes(letter)) {
-        return 'incorrect';
+        return Feedback.Incorrect;
       } else {
-        return 'invalid';
+        return Feedback.Invalid;
       }
     });
-    return feedback;
   };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -76,35 +72,7 @@ const Game = ({ correctWord }: GameProps) => {
         </button>
       </form>
       {guesses.map((item, index) => (
-        <div key={index} className='flex justify-center gap-2 p-1'>
-          {item.guess.split('').map((letter, letterIndex) => {
-            const feedbackClass = item.feedback[letterIndex];
-            let bgColorClass = '';
-
-            switch (feedbackClass) {
-              case 'correct':
-                bgColorClass = 'bg-green-500';
-                break;
-              case 'incorrect':
-                bgColorClass = 'bg-yellow-500';
-                break;
-              case 'invalid':
-                bgColorClass = 'bg-gray-500';
-                break;
-              default:
-                bgColorClass = 'bg-white';
-            }
-
-            return (
-              <span
-                key={letterIndex}
-                className={`p-4 ${bgColorClass} text-white`}
-              >
-                {letter}
-              </span>
-            );
-          })}
-        </div>
+        <Guess key={index} guess={item.guess} feedback={item.feedback} />
       ))}
       {isGameOver && (
         <div>
