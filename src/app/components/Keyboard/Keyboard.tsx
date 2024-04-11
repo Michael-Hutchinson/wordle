@@ -1,5 +1,6 @@
 'use client';
 
+import { Button } from '@/components/ui/button';
 import { useEffect, useMemo } from 'react';
 
 interface KeyboardProps {
@@ -36,29 +37,29 @@ const Keyboard = ({ onKeyPress, onSubmit, onDelete }: KeyboardProps) => {
       {rows.map((row, index) => (
         <div key={index} className='flex justify-center'>
           {index === 2 && (
-            <button
+            <Button
               className='bg-gray-400 text-white p-2 m-1 rounded shadow'
               onClick={onSubmit}
             >
               Enter
-            </button>
+            </Button>
           )}
           {row.split('').map((letter) => (
-            <button
+            <Button
               key={letter}
               className='bg-gray-500 hover:bg-gray-700 text-white p-2 m-1 rounded shadow'
               onClick={() => onKeyPress(letter)}
             >
               {letter}
-            </button>
+            </Button>
           ))}
           {index === 2 && (
-            <button
+            <Button
               className='bg-gray-400 text-white p-2 m-1 rounded shadow'
               onClick={onDelete}
             >
               Del
-            </button>
+            </Button>
           )}
         </div>
       ))}
