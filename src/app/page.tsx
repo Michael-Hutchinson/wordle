@@ -1,4 +1,5 @@
 import Game from './components/Game/Game';
+import Modal from './components/Modal/Modal';
 import Toggle from './components/Toggle/Toggle';
 import { getRandomWord } from './constants/words';
 
@@ -9,6 +10,7 @@ export default function Home() {
       <header className='flex justify-between items-center gap-4'>
         <h1 className='text-4xl font-bold'>Wordle</h1>
         <Toggle />
+        <Modal />
       </header>
       <Game correctWord={randomWord.toUpperCase()} />
     </main>
