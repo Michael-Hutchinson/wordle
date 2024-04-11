@@ -65,7 +65,7 @@ const Game = ({ correctWord }: GameProps) => {
   };
 
   return (
-    <div className='flex flex-col items-center justify-center p-4 gap-6'>
+    <div className='flex flex-col items-center justify-center gap-6'>
       <div className='grid gap-2'>
         {Array.from({ length: 6 }).map((_, rowIndex) => (
           <Row

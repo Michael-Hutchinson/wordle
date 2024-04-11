@@ -14,7 +14,9 @@ const Letter = ({ letter, feedback }: LetterProps) => {
     [Feedback.Invalid]: 'bg-gray-500',
   };
 
-  const bgColor = feedback ? bgColorMap[feedback] : 'bg-gray-200';
+  const bgColor = feedback
+    ? bgColorMap[feedback]
+    : 'bg-gray-200 dark:bg-gray-800';
 
   return (
     <div
