@@ -85,7 +85,7 @@ const Game = ({ correctWord }: GameProps) => {
       {isGameOver && (
         <div className='text-2xl font-bold my-2'>
           {guesses.length >= 6 && currentGuess !== correctWord
-            ? 'Game Over. Try again!'
+            ? `Game Over. Try again! The Correct word was: ${correctWord}`
             : "Congratulations! You've guessed the word."}
         </div>
       )}
