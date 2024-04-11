@@ -18,7 +18,7 @@ const Letter = ({ letter, feedback }: LetterProps) => {
 
   return (
     <div
-      className={`rounded shadow w-12 h-12 flex items-center justify-center uppercase ${bgColor} text-white`}
+      className={`rounded shadow w-12 h-12 flex items-center justify-center uppercase font-bold text-lg ${bgColor} text-foreground`}
     >
       {letter}
     </div>
